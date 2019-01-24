@@ -76,7 +76,8 @@ TF_ROSTER_ATTRS = {'host': 's',
                    'timeout': 'i',
                    'minion_opts': 'm',
                    'thin_dir': 's',
-                   'cmd_umask': 'i'}
+                   'cmd_umask': 'i',
+                   'priv': 's'}
 MINION_ID = 'salt_id'
 
 
@@ -100,6 +101,9 @@ def _add_ssh_key(ret):
     '''
     Setups the salt-ssh minion to be accessed with salt-ssh default key
     '''
+    #Check priv is already set
+    if ret.get('priv'):
+       return
     priv = None
     if __opts__.get('ssh_use_home_key') and os.path.isfile(os.path.expanduser('~/.ssh/id_rsa')):
         priv = os.path.expanduser('~/.ssh/id_rsa')
